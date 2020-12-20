@@ -1,0 +1,186 @@
+#entete
+{
+	width: 100%;
+	height: 100px;
+	background-color: orange;
+	text-align: center;
+}
+
+body
+{
+	margin: 50px 150px;
+	background-color: orange;
+}
+
+div.col-6
+{
+	padding-top: 100px;
+}
+
+div.row.black.espace
+{
+	width: 100%;
+	margin: auto;
+	margin-top: 10px;
+}
+
+#imgVelo1
+{
+	width: 150px;
+	height: auto;
+}
+
+#imgVelo2
+{
+	width: 150px;
+	height: auto;
+}
+
+#divImgVelo1
+{	
+	width: 150px;
+	height: auto;
+	position: absolute;
+	left: 70%;
+	top: 33%;
+}
+
+#divImgVelo2
+{	
+	width: 150px;
+	height: auto;
+	position: absolute;
+	left: 23%;
+	top:28%;
+}
+
+#page
+{
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	border-radius: 33px;
+	border:2px solid white;
+}
+
+#conteneur
+{
+	margin-left: 40%;
+	/*border:1px black solid;*/
+	width: 402px;
+}
+
+.container
+{
+	padding-top: 10px;
+}
+
+#explicationText
+{
+	margin:auto;
+	text-align: center;
+}
+
+#lesbtn
+{
+	margin-left: 45%;
+}
+
+#canvasDiv
+{
+	display:none
+}
+
+#can
+{
+	display:block;
+	border:2px solid black;
+	margin-top: 10px;
+}
+
+
+#mapid
+{ 
+	width: 500px;
+	height: 450px; 
+}
+
+#rebours
+{
+	text-align:center;
+	padding-top:50px;
+	padding-bottom:50px;
+}
+#boutton
+{
+	margin-top: -100px;
+	margin-left: 15%;
+}
+
+#cont-form
+{
+	display: block;
+	border : 2px solid black;
+	margin-left: 33%;
+	height: 380px;
+	width: 220px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top: 30px;
+}
+
+
+.rotation1:hover, .rotation2:hover
+{
+	-webkit-animation: rotating 2s linear;
+
+}
+
+
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+h1
+{
+	border: 4px solid white;
+	border-radius: 12px;
+	width: 500px;
+	margin:auto;
+}
+#explicationText
+{
+	width: 350px;
+	height: 100px;
+	border: 2px dotted orange;
+}
+
+#boutonReserver
+{
+	margin-top: 20px;
+}
+
+#clr,#confirmer
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/* Bootstrap*/
+.rouge 
+{
+	border: solid 1px red;
+}
+
+.black
+{
+	border: solid 1px black;
+}
+.espace {
+	padding: 10px;
+}
