@@ -93,15 +93,7 @@ checkAll();
 
 
 $(function () {
-		// handler du compteur à rebours
-		let handler;
-		let tempsInit = 2 * 60;
-		let nomPersonneForm = localStorage.getItem("nom_personne_form");
-		let prenomPersonneForm = localStorage.getItem("prenom_personne_form");
-		let tempsSauvegarder = ''
-		let isRefresh = false;
-
-			class Compte_a_rebours
+	class Compte_a_rebours
 	{
 		constructor(){	}
 
@@ -119,8 +111,16 @@ $(function () {
 	}
 
 
+		// handler du compteur à rebours
+		let handler;
+		let tempsInit = 2 * 60;
+		let nomPersonneForm = localStorage.getItem("nom_personne_form");
+		let prenomPersonneForm = localStorage.getItem("prenom_personne_form");
+		let tempsSauvegarder = ''
+		let isRefresh = false;
 
-			let NouveauCompteur = new Compte_a_rebours();
+
+		let Compteur = new Compte_a_rebours();
 		// on cherche le temps sauvegardé 
 		tempsSauvegarder = localStorage.getItem('tempsRestant');
 		console.log("temps sauvegarde",tempsSauvegarder)
@@ -129,7 +129,7 @@ $(function () {
 		{
 			tempsInit = tempsSauvegarder;
 			//récupération temps au rechargement
-			NouveauCompteur.demarrer();
+			Compteur.demarrer();
 		}
 		else
 		{
@@ -139,7 +139,7 @@ $(function () {
 
 
 
-					if (localStorage.getItem("nom_personne_form") != '' && localStorage.getItem("prenom_personne_form") != '') {
+		if (localStorage.getItem("nom_personne_form") != '' && localStorage.getItem("prenom_personne_form") != '') {
 
 		//populer les champs inputs
 		$('#nom').val(nomPersonneForm);
@@ -162,7 +162,6 @@ $(function () {
 		function affiche(x) {
 			if (x) {
 				let chaine = convertToUserFriendly(x);
-				//$('#rebours').text
 				document.getElementById('rebours').innerHTML = 'Vélo réservé à l\'adresse : '+localStorage.getItem('adresseStation')+ ' par '+localStorage.getItem('prenom_personne_form')+' '+
 				localStorage.getItem('nom_personne_form')+' , temps restant: ' + chaine;
 			}
@@ -184,7 +183,6 @@ $(function () {
 		$('#boutondual').on('click', function()
 		{
 			nouveauDiapo.handle = nouveauDiapo.start();
-
 		});
 
 		//navigation diapo
@@ -200,8 +198,6 @@ $(function () {
 		};
 
 
-
-
 		$(document).on("keydown", function(e) {
 			if (e.which === 116)
 			{
@@ -214,17 +210,17 @@ $(function () {
 		// bouton confirmer du canvas
 		$('#confirmer').on('click', function () {
 
-			console.log(" click #confirmer")
 			clearInterval(handler);
+
 			let UneReservation = new Reservation();
 			UneReservation.sauvegarderNom(($('#nom').val()),($('#prenom').val()));
 			sauvegarderadresseStation();
 				//clearInterval();
-				localStorage.setItem('tempsRestant', 2 * 60);
+			console.log(" click #confirmer")
+			localStorage.setItem('tempsRestant', 2 * 60);
 
 				//demarrerCompteur au moment de confirmer
-				let NouveauCompteur = new Compte_a_rebours();
-				NouveauCompteur.demarrer();
+				Compteur.demarrer();
 			});
 
 
