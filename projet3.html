@@ -81,140 +81,66 @@
 </div>
 </body>
 <script src="projet3.js"></script>
+<script src="diapo.js"></script>
+<script src="reservation.js"></script>
 <script>
 
 	var mymap = L.map('mapid').setView([45.7577, 4.8374], 15);
 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}{r}.png?{foo}', { foo: 'bar', attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>' }).addTo(mymap);
 
+// cherche sur jcdecaux les infos
 	checkAll();
 
+
 	$(function () {
+		// handler du compteur à rebours
 		let handler;
 		let tempsInit = 2 * 60;
+		let nomPersonneForm = localStorage.getItem("nom_personne_form");
+		let prenomPersonneForm = localStorage.getItem("prenom_personne_form");
+		let tempsSauvegarder = ''
+		// on cherche le temps sauvegardé 
+		tempsSauvegarder = localStorage.getItem('tempsRestant');
+
+		if (tempsSauvegarder) 
+			{
+				tempsInit = tempsSauvegarder;
+			}
+		else
+			{
+				clearInterval(handler);
+				tempsInit = 2*60;
+			}
+			
 
 
 	if (localStorage.getItem("nom_personne_form") != '' && localStorage.getItem("prenom_personne_form") != '') {
-		let nomPersonneForm = localStorage.getItem("nom_personne_form");
-		let prenomPersonneForm = localStorage.getItem("prenom_personne_form");
+
+		//populer les champs inputs
 		$('#nom').val(nomPersonneForm);
 		$('#prenom').val(prenomPersonneForm);
 	}
 
-	class Diapo
-	{
-		constructor()
+
+	// set compteur au moment de rafraichir le tab navigateur
+	window.onbeforeunload = function() {
+		if (isRefresh==false)
 		{
-			this.tableauImage  = ['velib1.jpg', 'velib2.jpg', 'velib3.jpg', 'velib4.jpg', 'velib5.jpg'];
-			this.tableauTexte =  ['Ce Site permet de réserver un vélo', 'Pour cela vous avez à votre disposition une carte avec l\'emplacement des differents sites', 'à droite de la carte vous pouvez en cliquant sur les marqueur avoir les info de la station', 'vous avez aussi la possibilité de reserver un velo en fournissant votre nom et votre prénom', 'enfin vous n\'aurez plus qu\'à signer'];
-			this.i = 0;
-			this.j = 0;
-			this.surPause = true;
-			this.handle = null;
+			localStorage.setItem('tempsRestant', 0);
+			return ;
 		}
 
-		start() 
-		{
-			if (this.surPause==false) 
-			{
-				clearInterval(this.handle);
-				this.surPause = true;
-				document.getElementById('boutondual').innerHTML = "Play";
-				return;
-			}
-			else 
-			{
-				let handle = setInterval(this.suiv.bind(this), 1000);
-				this.surPause = false;
-				document.getElementById('boutondual').innerHTML = "Pause";
-				//$('#boutondual').text('Pause');// enlever tout le jquery mettre du javascript pour le diapo !!!
-				return handle;
-			}
-		}
-
-		stop() 
-		{
-			clearInterval(this.handle)
-			document.getElementById('boutondual').innerHTML = "Play";
-			//$('#boutondual').text('Play');
-		}
-
-		suiv() 
-		{
-			this.i++;
-			this.j++;
-
-			if (this.i == 5 || this.j == 5) {
-				this.i = 0;
-				this.j = 0;
-			}
+	};
 
 
-			document.getElementById('conteneur').innerHTML = '<img src="' + this.tableauImage[this.i]+ '">' + '<p id="explicationText">"' + this.tableauTexte[this.j]+ '"</p>'+'<div id="divImgVelo1" class="rotation1"><img id="imgVelo1" src="velovelo1.png"></div>'+
-		'<div id="divImgVelo2" class="rotation2"><img id="imgVelo2" src="velovelo2.png"></div>';
-
-			/*$('#conteneur').html('<img src="' + this.tableauImage[this.i]+ '">' + '<p id="explicationText">"' + this.tableauTexte[this.j]+ '"</p>'+'<div id="divImgVelo1" class="rotation1"><img id="imgVelo1" src="velovelo1.png"></div>'+
-		'<div id="divImgVelo2" class="rotation2"><img id="imgVelo2" src="velovelo2.png"></div>');//ici aussi mettre ne javascript */
 
 
-		};
-
-		prec() 
-		{
-			this.i--;
-			this.j--;
-			if (this.i < 0 || this.j < 0) {
-				this.i = 4;
-				this.j = 4;
-			}
-
-			document.getElementById('conteneur').innerHTML = '<img src="' + this.tableauImage[this.i] + '">' + '<p id="explicationText">"' + this.tableauTexte[this.j] + '"</p>'+'<div id="divImgVelo1" class="rotation1"><img id="imgVelo1" src="velovelo1.png"></div>'+
-		'<div id="divImgVelo2" class="rotation2"><img id="imgVelo2" src="velovelo2.png"></div>';
-
-
-			/*$('#conteneur').html('<img src="' + this.tableauImage[this.i] + '">' + '<p id="explicationText">"' + this.tableauTexte[this.j] + '"</p>'+'<div id="divImgVelo1" class="rotation1"><img id="imgVelo1" src="velovelo1.png"></div>'+
-		'<div id="divImgVelo2" class="rotation2"><img id="imgVelo2" src="velovelo2.png"></div>');//ici aussi*/
-
-		}
-
-	}
-
-	class Reservation //majuscule class passer les parametre nom
-	{
-		constructor()
-		{
-
-		}
-
-		sauvegarderNom(nom,prenom)
-		{
-			//($('#nom').val() != '') && ($('#prenom').val() != '')
-			//(document.getElementById('nom').val != '')&& (document.getElementById('prenom').val !='')
-			if ((document.getElementById('nom').val != '') && (document.getElementById('prenom').val !=''))
-			{
-				localStorage.setItem("nom_personne_form", nom);
-				localStorage.setItem("prenom_personne_form", prenom);
-			}
-		}
-
-	}
 
 	class Compte_a_rebours
 	{
 		constructor()
 		{
-			this.recupTemps = function()
-			{
-				let tempsSauvegarder = localStorage.getItem('tempsRestant');
-				if (tempsSauvegarder) 
-				{
-					tempsInit = tempsSauvegarder;
-				}
-				else
-				{
-					clearInterval(handler);
-					tempsInit = 2*60;
-				}
-			}
+			
 		}
 
 		demarrer()
@@ -242,7 +168,6 @@
 
 		let nouveauDiapo = new Diapo();
 
-
 		$('#next').on('click', function()
 		{
 			nouveauDiapo.suiv();
@@ -259,6 +184,7 @@
 
 		});
 
+		//navigation diapo
 		document.onkeydown = function (e) {
 			switch (e.keyCode) {
 				case 37:
@@ -270,6 +196,7 @@
 			}
 		};
 
+
 			var isRefresh = false;
 
 			$(document).on("keydown", function(e) {
@@ -279,29 +206,22 @@
 				}
 			});
 
-			window.onbeforeunload = function() {
-				if (isRefresh==false)
-				{
-					localStorage.setItem('tempsRestant', 0);
-					return ;
-				}
 
-			};
 
+			// bouton confirmer du canvas
 			$('#confirmer').on('click', function () {
 				clearInterval(handler);
-		let UneReservation = new Reservation();
-		UneReservation.sauvegarderNom(($('#nom').val()),($('#prenom').val()));
-		console.log($('#nom').val());
-		console.log($('#prenom').val());
-		sauvegarderadresseStation();
-		//clearInterval();
-		localStorage.setItem('tempsRestant', 2*60);
-		//demarrerCompteur();
-		let NouveauCompteur = new Compte_a_rebours();
-		NouveauCompteur.recupTemps();
-		NouveauCompteur.demarrer();
-	});
+					let UneReservation = new Reservation();
+					UneReservation.sauvegarderNom(($('#nom').val()),($('#prenom').val()));
+					sauvegarderadresseStation();
+					//clearInterval();
+					localStorage.setItem('tempsRestant', 2*60);
+
+					//demarrerCompteur au moment de confirmer
+					let NouveauCompteur = new Compte_a_rebours();
+					NouveauCompteur.recupTemps();
+					NouveauCompteur.demarrer();
+			});
 
 
 	function init() {
@@ -396,7 +316,7 @@
 	}
 
 	init();
-})
+}) // fin jquery
 
 </script>
 <!--<script src="projet3.js"></script>-->
